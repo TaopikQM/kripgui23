@@ -1,22 +1,13 @@
 import streamlit as st
-import getpass
-import os
-import random
-import sys
-from datetime import datetime
-from itertools import cycle
-try:
-    import numpy as np
-    from PIL import Image
-except ModuleNotFoundError:
-    st.write('Enter the command: pip install numpy pillow')
-    sys.exit()
+from PIL import Image
 
-class ImageCrypt():
-    def __init__(self, password):
-        self.password = password
+# Menyimpan gambar
+def save_image(image, path):
+    image.save(path)
 
-    # Sisipkan metode lain di sini seperti yang ditentukan dalam kode sebelumnya
+# Menampilkan gambar
+def display_image(image):
+    st.image(image, caption='Processed Image', use_column_width=True)
 
 def main():
     st.title("Image Encryption and Decryption")
@@ -33,9 +24,15 @@ def main():
                 if mode == "Decrypt":
                     # Panggil metode decrypt di sini
                     st.write("Decryption process...")
+                    decrypted_image = Image.open("path_to_your_decrypted_image.png")  # Ganti dengan path gambar terdekripsi
+                    display_image(decrypted_image)
+                    save_image(decrypted_image, 'decrypted_image.png')
                 else:
                     # Panggil metode encrypt di sini
                     st.write("Encryption process...")
+                    encrypted_image = Image.open("path_to_your_encrypted_image.png")  # Ganti dengan path gambar terenkripsi
+                    display_image(encrypted_image)
+                    save_image(encrypted_image, 'encrypted_image.png')
         else:
             st.write("Error: minimum password length: 8")
 
