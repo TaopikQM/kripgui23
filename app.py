@@ -32,15 +32,15 @@ def main():
                 if mode == "Decrypt":
                     # Panggil metode decrypt di sini
                     st.write("Decryption process...")
-                    decrypted_image = Image.open("decrypted_image.png")  # Ganti dengan path gambar terdekripsi
+                    decrypted_image = Image.open("images/decrypted_image.png")  # Path menuju gambar terdekripsi di dalam folder 'images'
                     display_image(decrypted_image)
-                    st.markdown(get_image_download_link('decrypted_image.png', 'Download Decrypted Image'), unsafe_allow_html=True)
+                    st.markdown(get_image_download_link('images/decrypted_image.png', 'Download Decrypted Image'), unsafe_allow_html=True)
                 else:
                     # Panggil metode encrypt di sini
                     st.write("Encryption process...")
-                    encrypted_image = Image.open("encrypted_image.png")  # Ganti dengan path gambar terenkripsi
+                    encrypted_image = Image.open("images/encrypted_image.png")  # Path menuju gambar terenkripsi di dalam folder 'images'
                     display_image(encrypted_image)
-                    st.markdown(get_image_download_link('encrypted_image.png', 'Download Encrypted Image'), unsafe_allow_html=True)
+                    st.markdown(get_image_download_link('images/encrypted_image.png', 'Download Encrypted Image'), unsafe_allow_html=True)
         else:
             st.write("Error: minimum password length: 8")
 
