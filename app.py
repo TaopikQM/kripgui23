@@ -1,13 +1,21 @@
 import streamlit as st
 from PIL import Image
 
-# Menyimpan gambar
+# Fungsi untuk menyimpan gambar
 def save_image(image, path):
     image.save(path)
 
-# Menampilkan gambar
+# Fungsi untuk menampilkan gambar
 def display_image(image):
     st.image(image, caption='Processed Image', use_column_width=True)
+
+# Fungsi untuk menampilkan tautan unduh gambar
+def get_image_download_link(img_path, text):
+    with open(img_path, 'rb') as f:
+        image = f.read()
+    b64_image = base64.b64encode(image).decode()
+    href = f'<a href="data:image/png;base64,{b64_image}" download="{img_path}">{text}</a>'
+    return href
 
 def main():
     st.title("Image Encryption and Decryption")
@@ -24,15 +32,15 @@ def main():
                 if mode == "Decrypt":
                     # Panggil metode decrypt di sini
                     st.write("Decryption process...")
-                    decrypted_image = Image.open("path_to_your_decrypted_image.png")  # Ganti dengan path gambar terdekripsi
+                    decrypted_image = Image.open("decrypted_image.png")  # Ganti dengan path gambar terdekripsi
                     display_image(decrypted_image)
-                    save_image(decrypted_image, 'decrypted_image.png')
+                    st.markdown(get_image_download_link('decrypted_image.png', 'Download Decrypted Image'), unsafe_allow_html=True)
                 else:
                     # Panggil metode encrypt di sini
                     st.write("Encryption process...")
-                    encrypted_image = Image.open("path_to_your_encrypted_image.png")  # Ganti dengan path gambar terenkripsi
+                    encrypted_image = Image.open("encrypted_image.png")  # Ganti dengan path gambar terenkripsi
                     display_image(encrypted_image)
-                    save_image(encrypted_image, 'encrypted_image.png')
+                    st.markdown(get_image_download_link('encrypted_image.png', 'Download Encrypted Image'), unsafe_allow_html=True)
         else:
             st.write("Error: minimum password length: 8")
 
