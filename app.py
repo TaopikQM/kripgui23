@@ -1,5 +1,9 @@
 import streamlit as st
 from PIL import Image
+import os
+
+# Path penyimpanan file sementara
+UPLOAD_DIR = "uploads"
 
 # Fungsi untuk mengenkripsi gambar
 def encrypt_image(image_path):
@@ -47,17 +51,24 @@ def decrypt_image(image_path):
 def main():
     st.title("Image Encryption and Decryption")
 
+    if not os.path.exists(UPLOAD_DIR):
+        os.makedirs(UPLOAD_DIR)
+
     uploaded_file = st.file_uploader("Upload Image", type=["png", "jpg"])
     if uploaded_file is not None:
-        image = Image.open(uploaded_file)
+        image_path = os.path.join(UPLOAD_DIR, uploaded_file.name)
+        with open(image_path, "wb") as f:
+            f.write(uploaded_file.getbuffer())
+
+        image = Image.open(image_path)
         st.image(image, caption='Uploaded Image', use_column_width=True)
 
         if st.button("Encrypt"):
-            encrypted_image = encrypt_image(uploaded_file)
+            encrypted_image = encrypt_image(image_path)
             st.image(encrypted_image, caption='Encrypted Image', use_column_width=True)
 
         if st.button("Decrypt"):
-            decrypted_image = decrypt_image(uploaded_file)
+            decrypted_image = decrypt_image(image_path)
             st.image(decrypted_image, caption='Decrypted Image', use_column_width=True)
 
 if __name__ == '__main__':
