@@ -4,16 +4,42 @@ from PIL import Image
 # Fungsi untuk mengenkripsi gambar
 def encrypt_image(image_path):
     image = Image.open(image_path)  # Membuka gambar dari path
-    # Logika enkripsi
-    # ...
+
+    # Mendapatkan data piksel dari gambar
+    pixels = image.load()
+    width, height = image.size
+
+    # Proses enkripsi untuk setiap piksel
+    for i in range(width):
+        for j in range(height):
+            r, g, b = pixels[i, j]  # Mendapatkan nilai warna RGB
+            # Contoh proses enkripsi dengan mengubah nilai piksel
+            r = (r + 100) % 256
+            g = (g + 50) % 256
+            b = (b + 150) % 256
+            pixels[i, j] = (r, g, b)  # Memperbarui nilai piksel
+
     encrypted_image = image  # Simulasikan proses enkripsi untuk contoh ini
     return encrypted_image
 
 # Fungsi untuk mendekripsi gambar
 def decrypt_image(image_path):
     image = Image.open(image_path)  # Membuka gambar dari path
-    # Logika dekripsi
-    # ...
+
+    # Mendapatkan data piksel dari gambar
+    pixels = image.load()
+    width, height = image.size
+
+    # Proses dekripsi untuk setiap piksel
+    for i in range(width):
+        for j in range(height):
+            r, g, b = pixels[i, j]  # Mendapatkan nilai warna RGB
+            # Contoh proses dekripsi dengan mengubah nilai piksel
+            r = (r - 100) % 256
+            g = (g - 50) % 256
+            b = (b - 150) % 256
+            pixels[i, j] = (r, g, b)  # Memperbarui nilai piksel
+
     decrypted_image = image  # Simulasikan proses dekripsi untuk contoh ini
     return decrypted_image
 
