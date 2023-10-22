@@ -1,5 +1,7 @@
+
 import streamlit as st
 from PIL import Image
+import base64
 
 # Fungsi untuk menyimpan gambar
 def save_image(image, path):
