@@ -1,49 +1,38 @@
 import streamlit as st
 from PIL import Image
-import base64
 
-# Fungsi untuk menyimpan gambar
-def save_image(image, path):
-    image.save(path)
+# Fungsi untuk mengenkripsi gambar
+def encrypt_image(image_path):
+    image = Image.open(image_path)  # Membuka gambar dari path
+    # Logika enkripsi
+    # ...
+    encrypted_image = image  # Simulasikan proses enkripsi untuk contoh ini
+    return encrypted_image
 
-# Fungsi untuk menampilkan gambar
-def display_image(image):
-    st.image(image, caption='Processed Image', use_column_width=True)
+# Fungsi untuk mendekripsi gambar
+def decrypt_image(image_path):
+    image = Image.open(image_path)  # Membuka gambar dari path
+    # Logika dekripsi
+    # ...
+    decrypted_image = image  # Simulasikan proses dekripsi untuk contoh ini
+    return decrypted_image
 
-# Fungsi untuk menampilkan tautan unduh gambar
-def get_image_download_link(img_path, text):
-    with open(img_path, 'rb') as f:
-        image = f.read()
-    b64_image = base64.b64encode(image).decode()
-    href = f'<a href="data:image/png;base64,{b64_image}" download="{img_path}">{text}</a>'
-    return href
-
+# Fungsi utama
 def main():
     st.title("Image Encryption and Decryption")
 
     uploaded_file = st.file_uploader("Upload Image", type=["png", "jpg"])
     if uploaded_file is not None:
-        file_details = {"FileName": uploaded_file.name, "FileType": uploaded_file.type}
-        st.write(file_details)
+        image = Image.open(uploaded_file)
+        st.image(image, caption='Uploaded Image', use_column_width=True)
 
-        password = st.text_input("Enter password:", value="", type="password")
-        if len(password) >= 8:
-            mode = st.selectbox("Choose mode:", ("Encrypt", "Decrypt"))
-            if st.button("Run"):
-                if mode == "Decrypt":
-                    # Panggil metode decrypt di sini
-                    st.write("Decryption process...")
-                    decrypted_image = Image.open("images/decrypted_image.png")  # Path menuju gambar terdekripsi di dalam folder 'images'
-                    display_image(decrypted_image)
-                    st.markdown(get_image_download_link('images/decrypted_image.png', 'Download Decrypted Image'), unsafe_allow_html=True)
-                else:
-                    # Panggil metode encrypt di sini
-                    st.write("Encryption process...")
-                    encrypted_image = Image.open("images/encrypted_image.png")  # Path menuju gambar terenkripsi di dalam folder 'images'
-                    display_image(encrypted_image)
-                    st.markdown(get_image_download_link('images/encrypted_image.png', 'Download Encrypted Image'), unsafe_allow_html=True)
-        else:
-            st.write("Error: minimum password length: 8")
+        if st.button("Encrypt"):
+            encrypted_image = encrypt_image(uploaded_file)
+            st.image(encrypted_image, caption='Encrypted Image', use_column_width=True)
+
+        if st.button("Decrypt"):
+            decrypted_image = decrypt_image(uploaded_file)
+            st.image(decrypted_image, caption='Decrypted Image', use_column_width=True)
 
 if __name__ == '__main__':
     main()
